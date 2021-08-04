@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>用户信息管理</title>
+    <link rel="stylesheet" href="userManagement.css" type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <el-container class="app-body" id="app">
+        <el-header class="header">head</el-header>
+        <el-container class="container">
+            <el-aside class="aside">aside</el-aside>
+            <el-main class="main">
+                <el-form :inline="true" class="form">
+                    <el-button @click="add()" class="btn">增加</el-button>
+                    <el-button @click="saveNew(newItem)" :disabled="isSave" class="btn">保存</el-button>
+                    <span>用户名</span>
+                    <el-input v-model="newItem.usrName" placeholder="请输入用户名" :disabled="newItem.inputStatus"
+                        class="input"></el-input>
+                    <span>密码</span>
+                    <el-input v-model="newItem.usrPswd" placeholder="请输入密码" :disabled="newItem.inputStatus" class="input">
+                    </el-input>
+                </el-form>
+                <el-form :inline="true" v-for="item in arr" :key="item.id" class="form">
+                    <span>用户名</span>
+                    <el-input v-model="item.usrName" placeholder="请输入用户名" :disabled="item.inputStatus" class="input">
+                    </el-input>
+                    <span>密码</span>
+                    <el-input v-model="item.usrPswd" placeholder="请输入密码" :disabled="item.inputStatus" class="input">
+                    </el-input>
+                    <el-button @click="modify(item)" :disabled="item.mod" class="btn">修改</el-button>
+                    <el-button v-if="item.change" @click="remove(item)" class="btn">删除</el-button>
+                    <el-button v-else @click="save(item)" class="btn">保存</el-button>
+                </el-form>                
+            </el-main>
+        </el-container>
+    </el-container>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            arr: [],
+            newItem: { usrName: "", usrPswd:"", inputStatus: true },
+            isSave: true,
+        },
+        methods: {
+            modify: function (cur) {
+                cur.inputStatus = false;
+                cur.change = false;
+                cur.mod = true;
+            },
+            remove: function (cur) {
+                confirm(`remove user ${cur.usrName} ?`) && alert('done');
+                this.$forceUpdate();
+            },
+            save: function (cur) {
+                cur.change = true;
+                cur.mod = false;
+                cur.inputStatus=true;
+                alert(`get ${cur.usrName} and ${cur.usrPswd}`);
+            },
+            add: function () {
+                this.newItem.inputStatus = false;
+                this.isSave = false;
+            },
+            saveNew: function (cur) {
+                cur.inputStatus=true;
+                alert(`get ${cur.usrName} and ${cur.usrPswd}`);
+            }
+        },
+        mounted: function () {
+            $.ajax({
+                url: 'http://localhost:3000/content.json',
+                type: 'GET',
+                dataType: 'json',
+                error: (xhr) => { alert("fail"); },
+                success: (res) => {
+                    this.arr = res.content;
+                },
+            });
+        }
+    });
+</script>
+
+</html>

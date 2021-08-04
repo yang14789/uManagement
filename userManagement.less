@@ -1,0 +1,56 @@
+@deep:~'>>>';
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    height: 100%;
+    width: 100%;
+        .app-body{
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            .header{
+                height: 200px !important;
+                text-align: center;
+                background-color: #B3C0D1;
+            } 
+            .container{
+                height: 100%;
+                .aside{
+                    background-color: #D3DCE6;
+                    text-align: center;
+                    width: 200px !important;
+                }
+                .main{
+                    height: 100%;
+                    min-width: 600px;
+                    background-color: #E9EEF3;
+                    text-align: center;
+                    .form{
+                        display: flex;
+                        align-items: center;
+                        margin-bottom: 10px;
+                        span{
+                            min-width:50px;
+                            margin-right: 10px;
+                            line-height: 40px;
+                        }
+                        .input{
+                            line-height: 40px;
+                        }
+                        .btn{
+                            line-height: 40px;
+                            height: 40px;
+                            padding: 0 10px;
+                            text-align: center;
+                        }
+                        &:first-child{
+                            margin-bottom: 50px;
+                        }
+                    }
+                }
+            }
+        }  
+}
